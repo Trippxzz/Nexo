@@ -22,19 +22,19 @@ import {
 const recipes = [
   {
     id: 1,
-    name: "Fresh Garden Salad Bowl",
-    image: "/fresh-colorful-healthy-salad-bowl-with-vegetables-.jpg",
+    name: "Pollo a la Plancha con Puré de Papa y Verduras al Vapor",
+    image: "/0191e788-9eb6-7ed1-bc69-39875195ce8e.jpeg",
     description:
-      "A vibrant mix of fresh greens, colorful vegetables, and a light vinaigrette dressing. Perfect for a nutritious lunch.",
+      "Este plato combina la jugosidad del pollo a la plancha con un suave puré de papa y verduras al vapor, creando una comida equilibrada y deliciosa.",
     ingredients: [
-      "2 cups mixed greens (lettuce, spinach, arugula)",
-      "1 cup cherry tomatoes, halved",
-      "1 cucumber, sliced",
-      "1/2 red onion, thinly sliced",
-      "1 bell pepper, diced",
-      "1/4 cup olive oil",
-      "2 tbsp balsamic vinegar",
-      "Salt and pepper to taste",
+      "4 pechugas de pollo",
+      "2 cucharadas aceite de oliva",
+      "Sal al gusto",
+      "4 papas medianas",
+      "½ taza de leche",
+      "2 cucharadas mantequilla",
+      "1 zanahoria",
+      "1 taza de brócoli",
     ],
     steps: [
       "Wash and dry all vegetables thoroughly",

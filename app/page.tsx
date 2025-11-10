@@ -108,6 +108,7 @@ export default function HealthyRecipesWelcome() {
   >("welcome")
   const [isLoginMode, setIsLoginMode] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   const [selectedRecipeId, setSelectedRecipeId] = useState<number | null>(null)
   const [completedRecipes, setCompletedRecipes] = useState<number[]>([])
@@ -156,7 +157,7 @@ export default function HealthyRecipesWelcome() {
   const handleCompleteRecipe = () => {
     if (selectedRecipeId && !completedRecipes.includes(selectedRecipeId)) {
       setCompletedRecipes([...completedRecipes, selectedRecipeId])
-      alert("Recipe marked as complete! Check your achievements.")
+      alert("Receta ha sido completada! Mira tus logros.")
     }
   }
 
@@ -180,11 +181,14 @@ export default function HealthyRecipesWelcome() {
     console.log(`${mode} submitted:`, formData)
 
     if (mode === "register") {
+      setIsLoggedIn(true)
       // After successful registration, go to health form
       setCurrentScreen("health")
     } else {
+      setIsLoggedIn(true)
       // For login, you might redirect to recipes or dashboard
       console.log("Login successful")
+      setCurrentScreen("recipes")
     }
   }
 
@@ -208,7 +212,7 @@ export default function HealthyRecipesWelcome() {
 
   return (
     <div className="min-h-screen bg-background">
-      {currentScreen !== "welcome" && currentScreen !== "form" && currentScreen !== "health" && (
+      {isLoggedIn && currentScreen !== "welcome" && currentScreen !== "form" && currentScreen !== "health" && (
         <button
           onClick={() => setCurrentScreen("profile")}
           className="fixed top-4 right-4 z-50 w-12 h-12 bg-primary hover:bg-primary/90 text-primary-foreground rounded-full shadow-lg hover:shadow-xl transition-all active:scale-95 flex items-center justify-center group"
@@ -231,9 +235,7 @@ export default function HealthyRecipesWelcome() {
 
             {/* Welcome Message */}
             <div className="space-y-4">
-              <h1 className="text-3xl font-bold text-foreground leading-tight text-balance">
-                Bienvenido a Nexo!
-              </h1>
+              <h1 className="text-3xl font-bold text-foreground leading-tight text-balance">Bienvenido a Nexo!</h1>
               <p className="text-lg text-muted-foreground leading-relaxed text-pretty">
                 Tu ruta para un mejor estilo de vida nutricional.
               </p>
@@ -265,8 +267,12 @@ export default function HealthyRecipesWelcome() {
                   <Leaf className="w-8 h-8 text-primary-foreground" />
                 </div>
               </div>
-              <h1 className="text-2xl font-bold text-foreground mb-2">Lista de recetas</h1>
-              <p className="text-sm text-muted-foreground">Encuentra tu receta preferida!</p>
+              <h1 className="text-2xl font-bold text-foreground mb-2">
+                {isLoggedIn ? "Tus recetas saludables" : "Lista de recetas"}
+              </h1>
+              <p className="text-sm text-muted-foreground">
+                {isLoggedIn ? "Todas las recetas disponibles personalizadas para ti" : "Encuentra tu receta preferida!"}
+              </p>
             </div>
 
             {/* Recipe Cards */}
@@ -285,9 +291,7 @@ export default function HealthyRecipesWelcome() {
                   <div className="p-5">
                     <div className="flex items-start justify-between gap-2 mb-2">
                       <h3 className="text-lg font-bold text-foreground">{recipe.name}</h3>
-                      {completedRecipes.includes(recipe.id) && (
-                        <CheckCircle2 className="w-6 h-6 text-primary " />
-                      )}
+                      {completedRecipes.includes(recipe.id) && <CheckCircle2 className="w-6 h-6 text-primary " />}
                     </div>
                     <p className="text-sm text-muted-foreground leading-relaxed">{recipe.description}</p>
                   </div>
@@ -295,19 +299,22 @@ export default function HealthyRecipesWelcome() {
               ))}
             </div>
 
-            {/* CTA Section */}
-            <div className=" from-primary/10 to-primary/5 rounded-2xl p-6 text-center border border-border/50 backdrop-blur-sm">
-              <h2 className="text-xl font-bold text-foreground mb-3 text-balance">¿Quieres más recetas como estas?</h2>
-              <p className="text-sm text-muted-foreground mb-6 leading-relaxed text-pretty">
-                Registrate y crea tu dieta personalizada basada en tus objetivos con tu salud.
-              </p>
-              <button
-                onClick={handleRegisterNow}
-                className="w-full max-w-xs mx-auto px-6 py-4 bg-primary text-primary-foreground rounded-xl font-bold text-base hover:opacity-90 transition-all shadow-lg hover:shadow-xl active:scale-95"
-              >
-                Registrarte ahora
-              </button>
-            </div>
+            {!isLoggedIn && (
+              <div className=" from-primary/10 to-primary/5 rounded-2xl p-6 text-center border border-border/50 backdrop-blur-sm">
+                <h2 className="text-xl font-bold text-foreground mb-3 text-balance">
+                  ¿Quieres más recetas como estas?
+                </h2>
+                <p className="text-sm text-muted-foreground mb-6 leading-relaxed text-pretty">
+                  Registrate y crea tu dieta personalizada basada en tus objetivos con tu salud.
+                </p>
+                <button
+                  onClick={handleRegisterNow}
+                  className="w-full max-w-xs mx-auto px-6 py-4 bg-primary text-primary-foreground rounded-xl font-bold text-base hover:opacity-90 transition-all shadow-lg hover:shadow-xl active:scale-95"
+                >
+                  Registrarte ahora
+                </button>
+              </div>
+            )}
 
             {/* Back Button */}
             <button
@@ -353,7 +360,7 @@ export default function HealthyRecipesWelcome() {
                         {isCompleted && (
                           <div className="flex items-center gap-2 bg-primary/10 px-3 py-1.5 rounded-full ">
                             <CheckCircle2 className="w-5 h-5 text-primary" />
-                            <span className="text-xs font-bold text-primary">Completed</span>
+                            <span className="text-xs font-bold text-primary">Completado</span>
                           </div>
                         )}
                       </div>
@@ -364,7 +371,7 @@ export default function HealthyRecipesWelcome() {
                   {/* Ingredients Section */}
                   <div className="bg-card rounded-3xl shadow-xl overflow-hidden border border-border/50 mb-6">
                     <div className=" from-primary/10 to-primary/5 px-6 py-4 border-b border-border/50">
-                      <h2 className="text-lg font-bold text-foreground">Ingredients</h2>
+                      <h2 className="text-lg font-bold text-foreground">Ingredientes</h2>
                     </div>
                     <div className="px-6 py-5">
                       <ul className="space-y-3">
@@ -381,7 +388,7 @@ export default function HealthyRecipesWelcome() {
                   {/* Preparation Steps Section */}
                   <div className="bg-card rounded-3xl shadow-xl overflow-hidden border border-border/50 mb-6">
                     <div className=" from-primary/10 to-primary/5 px-6 py-4 border-b border-border/50">
-                      <h2 className="text-lg font-bold text-foreground">Preparation Steps</h2>
+                      <h2 className="text-lg font-bold text-foreground">Preparación paso a paso</h2>
                     </div>
                     <div className="px-6 py-5">
                       <ol className="space-y-4">
@@ -401,8 +408,8 @@ export default function HealthyRecipesWelcome() {
                   {!isCompleted && (
                     <div className="bg-card rounded-3xl shadow-xl overflow-hidden border border-border/50 mb-6">
                       <div className=" from-primary/10 to-primary/5 px-6 py-4 border-b border-border/50">
-                        <h2 className="text-lg font-bold text-foreground">Mark as Complete</h2>
-                        <p className="text-xs text-muted-foreground mt-1">Upload a photo of your completed recipe</p>
+                        <h2 className="text-lg font-bold text-foreground">Marca para completar</h2>
+                        <p className="text-xs text-muted-foreground mt-1">Sube una foto de tu receta ya una vez completada.</p>
                       </div>
                       <div className="px-6 py-6">
                         {/* Photo Upload */}
@@ -416,7 +423,7 @@ export default function HealthyRecipesWelcome() {
                                     alt="Uploaded recipe"
                                     className="w-full h-48 object-cover rounded-xl mx-auto"
                                   />
-                                  <p className="text-sm font-semibold text-primary">Photo uploaded successfully!</p>
+                                  <p className="text-sm font-semibold text-primary">Foto subida exitosamente!</p>
                                 </div>
                               ) : (
                                 <div className="space-y-3">
@@ -424,9 +431,9 @@ export default function HealthyRecipesWelcome() {
                                     <Upload className="w-8 h-8 text-primary" />
                                   </div>
                                   <div>
-                                    <p className="text-sm font-semibold text-foreground mb-1">Upload Photo</p>
+                                    <p className="text-sm font-semibold text-foreground mb-1">Subir Foto</p>
                                     <p className="text-xs text-muted-foreground">
-                                      Tap to select a photo from your device
+                                      Presione para seleccionar una foto de su dispositivo
                                     </p>
                                   </div>
                                 </div>
@@ -449,11 +456,11 @@ export default function HealthyRecipesWelcome() {
                           className="w-full px-6 py-5 bg-primary text-primary-foreground rounded-2xl font-bold text-lg hover:opacity-90 transition-all shadow-lg hover:shadow-xl active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-3"
                         >
                           <CheckCircle2 className="w-6 h-6" />
-                          Complete Recipe
+                          Completar Receta
                         </button>
                         {!uploadedPhoto && (
                           <p className="text-xs text-muted-foreground text-center mt-3">
-                            Please upload a photo to mark this recipe as complete
+                            Por favor sube una foto para habilitar el boton de completar.
                           </p>
                         )}
                       </div>
@@ -465,7 +472,7 @@ export default function HealthyRecipesWelcome() {
                       <div className=" from-primary/10 to-primary/5 px-6 py-4 border-b border-border/50">
                         <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
                           <CheckCircle2 className="w-5 h-5 text-primary" />
-                          Recipe Completed!
+                          Receta Completada!
                         </h2>
                       </div>
                       <div className="px-6 py-6">
@@ -475,7 +482,7 @@ export default function HealthyRecipesWelcome() {
                           className="w-full h-64 object-cover rounded-xl mb-4"
                         />
                         <p className="text-sm text-muted-foreground text-center leading-relaxed">
-                          Great job! This recipe has been added to your achievements.
+                          Buen trabajo completando esta receta! Sigue cocinando y mejorando tus habilidades culinarias.
                         </p>
                       </div>
                     </div>
@@ -717,9 +724,7 @@ export default function HealthyRecipesWelcome() {
                       rows={4}
                       className="w-full px-4 py-3.5 bg-background border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all resize-none"
                     />
-                    <p className="text-xs text-muted-foreground">
-                      Esto nos ayuda para personalizar sus recetas.
-                    </p>
+                    <p className="text-xs text-muted-foreground">Esto nos ayuda para personalizar sus recetas.</p>
                   </div>
 
                   {/* Submit Button */}
@@ -733,9 +738,7 @@ export default function HealthyRecipesWelcome() {
 
                 {/* Additional Info */}
                 <div className="mt-6 pt-6 border-t border-border/50 text-center">
-                  <p className="text-xs text-muted-foreground leading-relaxed">
-                    Tu información es privada y segura.
-                  </p>
+                  <p className="text-xs text-muted-foreground leading-relaxed">Tu información es privada y segura.</p>
                 </div>
               </div>
             </div>
@@ -788,7 +791,9 @@ export default function HealthyRecipesWelcome() {
                     <Mail className="w-5 h-5 text-primary" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1">Correo Electrónico</p>
+                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1">
+                      Correo Electrónico
+                    </p>
                     <p className="text-base font-semibold text-foreground break-all">
                       {formData.email || "No Registrado"}
                     </p>
@@ -896,7 +901,9 @@ export default function HealthyRecipesWelcome() {
                   <Activity className="w-5 h-5 text-primary" />
                   Dias Registrados / Racha de inicio sesión
                 </h2>
-                <p className="text-xs text-muted-foreground mt-1">Inicia sesión todos los dias para mejorar tu racha!</p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Inicia sesión todos los dias para mejorar tu racha!
+                </p>
               </div>
 
               <div className="px-6 py-6">
@@ -973,7 +980,7 @@ export default function HealthyRecipesWelcome() {
                     <div className="text-center mb-6">
                       <p className="text-5xl font-bold text-primary mb-2">{completedRecipes.length}</p>
                       <p className="text-sm text-muted-foreground font-semibold">
-                        {completedRecipes.length === 1 ? "Recipe Completed" : "Recipes Completed"}
+                        {completedRecipes.length === 1 ? "Recipe Completed" : "Recetas Completadas"}
                       </p>
                     </div>
                     <div className="space-y-3">

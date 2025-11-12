@@ -17,6 +17,8 @@ import {
   ChevronLeft,
   Upload,
   CheckCircle2,
+  Calculator,
+  Edit,
 } from "lucide-react"
 
 const recipes = [
@@ -37,78 +39,79 @@ const recipes = [
       "1 taza de brócoli",
     ],
     steps: [
-      "Wash and dry all vegetables thoroughly",
-      "Combine mixed greens in a large bowl",
-      "Add cherry tomatoes, cucumber, onion, and bell pepper",
-      "In a small bowl, whisk together olive oil and balsamic vinegar",
-      "Drizzle dressing over salad and toss gently",
-      "Season with salt and pepper to taste",
-      "Serve immediately and enjoy",
+      "Lava y seca todas las verduras a fondo",
+      "Combina las verduras mixtas en un tazón grande",
+      "Agrega tomates cherry, pepino, cebolla y pimiento",
+      "En un tazón pequeño, mezcla el aceite de oliva y vinagre balsámico",
+      "Rocía el aderezo sobre la ensalada y mezcla suavemente",
+      "Sazona con sal y pimienta al gusto",
+      "Sirve inmediatamente y disfruta",
     ],
   },
   {
     id: 2,
-    name: "Green Power Smoothie Bowl",
+    name: "Bowl de Smoothie Verde Energizante",
     image: "/vibrant-green-smoothie-bowl-with-berries-and-grano.jpg",
     description:
-      "Packed with spinach, berries, and granola. A refreshing breakfast that energizes your day with essential nutrients.",
+      "Repleto de espinacas, bayas y granola. Un desayuno refrescante que energiza tu día con nutrientes esenciales.",
     ingredients: [
-      "2 cups fresh spinach",
-      "1 banana, frozen",
-      "1/2 cup mixed berries",
-      "1/2 cup almond milk",
-      "1 tbsp chia seeds",
-      "1/4 cup granola",
-      "Fresh berries for topping",
-      "1 tbsp honey (optional)",
+      "2 tazas de espinacas frescas",
+      "1 plátano, congelado",
+      "1/2 taza de bayas mixtas",
+      "1/2 taza de leche de almendras",
+      "1 cucharada de semillas de chía",
+      "1/4 taza de granola",
+      "Bayas frescas para decorar",
+      "1 cucharada de miel (opcional)",
     ],
     steps: [
-      "Add spinach, frozen banana, and berries to blender",
-      "Pour in almond milk",
-      "Blend on high until smooth and creamy",
-      "Pour into a bowl",
-      "Top with granola, fresh berries, and chia seeds",
-      "Drizzle with honey if desired",
-      "Serve immediately",
+      "Agrega espinacas, plátano congelado y bayas a la licuadora",
+      "Vierte la leche de almendras",
+      "Licúa a alta velocidad hasta obtener una mezcla suave y cremosa",
+      "Vierte en un tazón",
+      "Decora con granola, bayas frescas y semillas de chía",
+      "Rocía con miel si lo deseas",
+      "Sirve inmediatamente",
     ],
   },
   {
     id: 3,
-    name: "Grilled Chicken Protein Bowl",
+    name: "Bowl de Pollo a la Parrilla con Proteínas",
     image: "/grilled-chicken-salad-with-mixed-greens-avocado-an.jpg",
     description:
-      "Tender grilled chicken with mixed greens, avocado, and a zesty dressing. High protein and incredibly satisfying.",
+      "Pollo tierno a la parrilla con verduras mixtas, aguacate y un aderezo cítrico. Alto en proteínas e increíblemente satisfactorio.",
     ingredients: [
-      "2 chicken breasts",
-      "2 cups mixed greens",
-      "1 avocado, sliced",
-      "1/2 cup cherry tomatoes",
-      "1/4 cup corn kernels",
-      "2 tbsp olive oil",
-      "1 lime, juiced",
-      "1 tsp cumin",
-      "Salt and pepper to taste",
+      "2 pechugas de pollo",
+      "2 tazas de verduras mixtas",
+      "1 aguacate, rebanado",
+      "1/2 taza de tomates cherry",
+      "1/4 taza de granos de maíz",
+      "2 cucharadas de aceite de oliva",
+      "1 lima, exprimida",
+      "1 cucharadita de comino",
+      "Sal y pimienta al gusto",
     ],
     steps: [
-      "Season chicken breasts with cumin, salt, and pepper",
-      "Heat grill or grill pan over medium-high heat",
-      "Grill chicken for 6-7 minutes per side until fully cooked",
-      "Let chicken rest for 5 minutes, then slice",
-      "Arrange mixed greens in a bowl",
-      "Top with sliced chicken, avocado, tomatoes, and corn",
-      "Drizzle with olive oil and lime juice",
-      "Serve warm and enjoy",
+      "Sazona las pechugas de pollo con comino, sal y pimienta",
+      "Calienta la parrilla o sartén para parrilla a fuego medio-alto",
+      "Asa el pollo durante 6-7 minutos por lado hasta que esté completamente cocido",
+      "Deja reposar el pollo durante 5 minutos, luego rebana",
+      "Coloca las verduras mixtas en un tazón",
+      "Agrega el pollo rebanado, aguacate, tomates y maíz encima",
+      "Rocía con aceite de oliva y jugo de lima",
+      "Sirve tibio y disfruta",
     ],
   },
 ]
 
 export default function HealthyRecipesWelcome() {
   const [currentScreen, setCurrentScreen] = useState<
-    "welcome" | "recipes" | "form" | "health" | "profile" | "achievements" | "recipeDetail"
+    "welcome" | "recipes" | "form" | "health" | "profile" | "achievements" | "recipeDetail" | "bmi" | "editProfile"
   >("welcome")
   const [isLoginMode, setIsLoginMode] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [showRegisterModal, setShowRegisterModal] = useState(false)
 
   const [selectedRecipeId, setSelectedRecipeId] = useState<number | null>(null)
   const [completedRecipes, setCompletedRecipes] = useState<number[]>([])
@@ -127,6 +130,11 @@ export default function HealthyRecipesWelcome() {
     weight: "",
     height: "",
     healthIssues: "",
+  })
+
+  const [bmiData, setBmiData] = useState({
+    weight: "",
+    height: "",
   })
 
   const handleGoToRecipes = () => {
@@ -157,7 +165,7 @@ export default function HealthyRecipesWelcome() {
   const handleCompleteRecipe = () => {
     if (selectedRecipeId && !completedRecipes.includes(selectedRecipeId)) {
       setCompletedRecipes([...completedRecipes, selectedRecipeId])
-      alert("Receta ha sido completada! Mira tus logros.")
+      alert("Recipe marked as complete! Check your achievements.")
     }
   }
 
@@ -172,6 +180,13 @@ export default function HealthyRecipesWelcome() {
   const handleHealthInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setHealthData({
       ...healthData,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  const handleBmiInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setBmiData({
+      ...bmiData,
       [e.target.name]: e.target.value,
     })
   }
@@ -208,10 +223,86 @@ export default function HealthyRecipesWelcome() {
     setIsLoginMode(!isLoginMode)
   }
 
+  const handleGoToBmi = () => {
+    if (!isLoggedIn) {
+      setShowRegisterModal(true)
+    } else {
+      setCurrentScreen("bmi")
+    }
+  }
+
+  const handleRegisterFromModal = () => {
+    setShowRegisterModal(false)
+    setCurrentScreen("form")
+  }
+
   const completedDays = [1, 2, 3, 4, 5]
 
   return (
     <div className="min-h-screen bg-background">
+      {showRegisterModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4 animate-in fade-in duration-300">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            onClick={() => setShowRegisterModal(false)}
+          ></div>
+
+          {/* Modal Content */}
+          <div className="relative w-full max-w-md bg-card rounded-3xl shadow-2xl border border-border/50 animate-in zoom-in-95 duration-300">
+            {/* Close Button */}
+            <button
+              onClick={() => setShowRegisterModal(false)}
+              className="absolute top-4 right-4 w-10 h-10 rounded-full bg-accent hover:bg-accent/80 flex items-center justify-center transition-colors"
+              aria-label="Close modal"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-5 h-5 text-foreground"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+
+            {/* Modal Header */}
+            <div className="from-primary/10 to-primary/5 px-8 py-8 text-center border-b border-border/50">
+              <div className="flex justify-center mb-4">
+                <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center shadow-lg animate-pulse">
+                  <Lock className="w-9 h-9 text-primary-foreground" />
+                </div>
+              </div>
+              <h2 className="text-2xl font-bold text-foreground mb-3 text-balance">¿Quieres usar el IMC?</h2>
+              <p className="text-sm text-muted-foreground leading-relaxed text-pretty">
+                Regístrate para esto y desbloquear todas las otras funcionalidades para mejorar tu alimentación y salud!
+              </p>
+            </div>
+
+            {/* Modal Body */}
+            <div className="px-8 py-8">
+              <button
+                onClick={handleRegisterFromModal}
+                className="w-full px-6 py-5 bg-primary hover:bg-primary/90 text-primary-foreground rounded-2xl font-bold text-lg transition-all shadow-lg hover:shadow-xl active:scale-95 flex items-center justify-center gap-3"
+              >
+                <User className="w-6 h-6" />
+                Regístrate aquí
+                <ArrowRight className="w-6 h-6" />
+              </button>
+
+              <p className="text-xs text-muted-foreground text-center mt-6 leading-relaxed">
+                Únete a nuestra comunidad y accede a todas las funcionalidades de salud y nutrición
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {isLoggedIn && currentScreen !== "welcome" && currentScreen !== "form" && currentScreen !== "health" && (
         <button
           onClick={() => setCurrentScreen("profile")}
@@ -316,6 +407,38 @@ export default function HealthyRecipesWelcome() {
               </div>
             )}
 
+            {/* BMI Calculator Section */}
+            <div className="mt-8 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/30 rounded-3xl p-8 text-center border-2 border-primary/20 shadow-xl hover:shadow-2xl transition-all duration-300">
+              <div className="flex justify-center mb-5">
+                <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center shadow-lg animate-pulse">
+                  <Calculator className="w-9 h-9 text-primary-foreground" />
+                </div>
+              </div>
+
+              <h2 className="text-2xl font-bold text-foreground mb-3 text-balance">
+                ¿Quieres calcular tu Índice de Masa Corporal?
+              </h2>
+
+              <p className="text-base text-muted-foreground mb-6 leading-relaxed max-w-md mx-auto text-pretty">
+                Conoce tu IMC y da el primer paso hacia tus objetivos de salud
+              </p>
+
+              <button
+                onClick={handleGoToBmi}
+                className="group px-8 py-5 bg-primary hover:bg-primary/90 text-primary-foreground rounded-2xl font-bold text-lg transition-all shadow-lg hover:shadow-xl active:scale-95 inline-flex items-center justify-center gap-3"
+              >
+                <Calculator className="w-6 h-6 group-hover:rotate-12 transition-transform" />
+                ¡Haz clic aquí para calcular y alcanzar tus metas de salud!
+                <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+              </button>
+
+              <div className="mt-6 pt-6 border-t border-primary/20">
+                <p className="text-xs text-muted-foreground">
+                  El IMC es una herramienta útil para evaluar tu peso en relación con tu altura
+                </p>
+              </div>
+            </div>
+
             {/* Back Button */}
             <button
               onClick={() => setCurrentScreen("welcome")}
@@ -327,7 +450,6 @@ export default function HealthyRecipesWelcome() {
         </div>
       )}
 
-      {/* Recipe Detail Screen */}
       {currentScreen === "recipeDetail" && selectedRecipeId && (
         <div className="min-h-screen px-4 py-8 animate-in fade-in slide-in-from-right-6 duration-500">
           <div className="max-w-2xl mx-auto">
@@ -360,7 +482,7 @@ export default function HealthyRecipesWelcome() {
                         {isCompleted && (
                           <div className="flex items-center gap-2 bg-primary/10 px-3 py-1.5 rounded-full ">
                             <CheckCircle2 className="w-5 h-5 text-primary" />
-                            <span className="text-xs font-bold text-primary">Completado</span>
+                            <span className="text-xs font-bold text-primary">Completed</span>
                           </div>
                         )}
                       </div>
@@ -371,7 +493,7 @@ export default function HealthyRecipesWelcome() {
                   {/* Ingredients Section */}
                   <div className="bg-card rounded-3xl shadow-xl overflow-hidden border border-border/50 mb-6">
                     <div className=" from-primary/10 to-primary/5 px-6 py-4 border-b border-border/50">
-                      <h2 className="text-lg font-bold text-foreground">Ingredientes</h2>
+                      <h2 className="text-lg font-bold text-foreground">Ingredients</h2>
                     </div>
                     <div className="px-6 py-5">
                       <ul className="space-y-3">
@@ -388,7 +510,7 @@ export default function HealthyRecipesWelcome() {
                   {/* Preparation Steps Section */}
                   <div className="bg-card rounded-3xl shadow-xl overflow-hidden border border-border/50 mb-6">
                     <div className=" from-primary/10 to-primary/5 px-6 py-4 border-b border-border/50">
-                      <h2 className="text-lg font-bold text-foreground">Preparación paso a paso</h2>
+                      <h2 className="text-lg font-bold text-foreground">Preparation Steps</h2>
                     </div>
                     <div className="px-6 py-5">
                       <ol className="space-y-4">
@@ -408,8 +530,8 @@ export default function HealthyRecipesWelcome() {
                   {!isCompleted && (
                     <div className="bg-card rounded-3xl shadow-xl overflow-hidden border border-border/50 mb-6">
                       <div className=" from-primary/10 to-primary/5 px-6 py-4 border-b border-border/50">
-                        <h2 className="text-lg font-bold text-foreground">Marca para completar</h2>
-                        <p className="text-xs text-muted-foreground mt-1">Sube una foto de tu receta ya una vez completada.</p>
+                        <h2 className="text-lg font-bold text-foreground">Mark as Complete</h2>
+                        <p className="text-xs text-muted-foreground mt-1">Upload a photo of your completed recipe</p>
                       </div>
                       <div className="px-6 py-6">
                         {/* Photo Upload */}
@@ -423,7 +545,7 @@ export default function HealthyRecipesWelcome() {
                                     alt="Uploaded recipe"
                                     className="w-full h-48 object-cover rounded-xl mx-auto"
                                   />
-                                  <p className="text-sm font-semibold text-primary">Foto subida exitosamente!</p>
+                                  <p className="text-sm font-semibold text-primary">Photo uploaded successfully!</p>
                                 </div>
                               ) : (
                                 <div className="space-y-3">
@@ -431,9 +553,9 @@ export default function HealthyRecipesWelcome() {
                                     <Upload className="w-8 h-8 text-primary" />
                                   </div>
                                   <div>
-                                    <p className="text-sm font-semibold text-foreground mb-1">Subir Foto</p>
+                                    <p className="text-sm font-semibold text-foreground mb-1">Upload Photo</p>
                                     <p className="text-xs text-muted-foreground">
-                                      Presione para seleccionar una foto de su dispositivo
+                                      Tap to select a photo from your device
                                     </p>
                                   </div>
                                 </div>
@@ -456,11 +578,11 @@ export default function HealthyRecipesWelcome() {
                           className="w-full px-6 py-5 bg-primary text-primary-foreground rounded-2xl font-bold text-lg hover:opacity-90 transition-all shadow-lg hover:shadow-xl active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-3"
                         >
                           <CheckCircle2 className="w-6 h-6" />
-                          Completar Receta
+                          Complete Recipe
                         </button>
                         {!uploadedPhoto && (
                           <p className="text-xs text-muted-foreground text-center mt-3">
-                            Por favor sube una foto para habilitar el boton de completar.
+                            Please upload a photo to mark this recipe as complete
                           </p>
                         )}
                       </div>
@@ -472,7 +594,7 @@ export default function HealthyRecipesWelcome() {
                       <div className=" from-primary/10 to-primary/5 px-6 py-4 border-b border-border/50">
                         <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
                           <CheckCircle2 className="w-5 h-5 text-primary" />
-                          Receta Completada!
+                          Recipe Completed!
                         </h2>
                       </div>
                       <div className="px-6 py-6">
@@ -482,7 +604,7 @@ export default function HealthyRecipesWelcome() {
                           className="w-full h-64 object-cover rounded-xl mb-4"
                         />
                         <p className="text-sm text-muted-foreground text-center leading-relaxed">
-                          Buen trabajo completando esta receta! Sigue cocinando y mejorando tus habilidades culinarias.
+                          Great job! This recipe has been added to your achievements.
                         </p>
                       </div>
                     </div>
@@ -769,8 +891,15 @@ export default function HealthyRecipesWelcome() {
 
             {/* Profile Card */}
             <div className="bg-card/95 backdrop-blur-sm rounded-3xl shadow-xl overflow-hidden border border-border/50 mb-6">
-              <div className=" from-primary/10 to-primary/5 px-6 py-5 border-b border-border/50">
+              <div className=" from-primary/10 to-primary/5 px-6 py-5 border-b border-border/50 flex items-center justify-between">
                 <h2 className="text-lg font-bold text-foreground">Información del usuario.</h2>
+                <button
+                  onClick={() => setCurrentScreen("editProfile")}
+                  className="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl font-semibold text-sm transition-all shadow-md hover:shadow-lg active:scale-95"
+                >
+                  <Edit className="w-4 h-4" />
+                  Editar Información
+                </button>
               </div>
 
               <div className="px-6 py-6 space-y-5">
@@ -980,7 +1109,7 @@ export default function HealthyRecipesWelcome() {
                     <div className="text-center mb-6">
                       <p className="text-5xl font-bold text-primary mb-2">{completedRecipes.length}</p>
                       <p className="text-sm text-muted-foreground font-semibold">
-                        {completedRecipes.length === 1 ? "Recipe Completed" : "Recetas Completadas"}
+                        {completedRecipes.length === 1 ? "Recipe Completed" : "Recipes Completed"}
                       </p>
                     </div>
                     <div className="space-y-3">
@@ -1053,6 +1182,341 @@ export default function HealthyRecipesWelcome() {
               <p className="text-xs text-muted-foreground leading-relaxed">
                 Inicia sesión todos los días no solo para mejorar la racha, si no para también mejorar en su salud!
               </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {currentScreen === "bmi" && (
+        <div className="min-h-screen flex items-center justify-center px-4 py-8">
+          <div className="w-full max-w-md animate-in fade-in slide-in-from-bottom-6 duration-500">
+            {/* BMI Form Container */}
+            <div className="bg-card/95 backdrop-blur-sm rounded-3xl shadow-2xl overflow-hidden border border-border/50">
+              {/* Header */}
+              <div className="from-primary/10 to-primary/5 px-6 py-8 text-center border-b border-border/50">
+                <div className="flex justify-center mb-4">
+                  <div className="w-14 h-14 bg-primary rounded-2xl flex items-center justify-center shadow-lg">
+                    <Calculator className="w-8 h-8 text-primary-foreground" />
+                  </div>
+                </div>
+                <h2 className="text-2xl font-bold text-foreground mb-2">Calcula tu Índice de Masa Corporal (IMC)</h2>
+                <p className="text-sm text-muted-foreground">Ingresa tu peso y estatura para calcular tu IMC</p>
+              </div>
+
+              {/* BMI Information */}
+              <div className="px-6 py-5 bg-primary/5 border-b border-border/50">
+                <h3 className="text-sm font-bold text-foreground mb-2">¿Qué es el IMC?</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  El Índice de Masa Corporal (IMC) es una medida utilizada para evaluar si una persona tiene un peso
+                  saludable en relación con su estatura. Es una herramienta importante para entender tu salud general y
+                  establecer metas realistas de bienestar.
+                </p>
+              </div>
+
+              {/* Form */}
+              <div className="px-6 py-8">
+                <form className="space-y-5">
+                  {/* Weight Field */}
+                  <div className="space-y-2">
+                    <label htmlFor="bmiWeight" className="text-sm font-semibold text-foreground block">
+                      Peso
+                    </label>
+                    <div className="flex gap-3">
+                      <div className="relative flex-1">
+                        <Activity className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                        <input
+                          type="number"
+                          id="bmiWeight"
+                          name="weight"
+                          value={bmiData.weight}
+                          onChange={handleBmiInputChange}
+                          placeholder="Ingresa tu peso"
+                          min="1"
+                          step="0.1"
+                          className="w-full pl-12 pr-4 py-3.5 bg-background border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                        />
+                      </div>
+                      <div className="flex items-center px-4 py-3.5 bg-accent border border-border rounded-xl">
+                        <span className="text-sm font-semibold text-foreground">kg</span>
+                      </div>
+                    </div>
+                    <p className="text-xs text-muted-foreground">Ingresa tu peso en kilogramos</p>
+                  </div>
+
+                  {/* Height Field */}
+                  <div className="space-y-2">
+                    <label htmlFor="bmiHeight" className="text-sm font-semibold text-foreground block">
+                      Estatura
+                    </label>
+                    <div className="flex gap-3">
+                      <div className="relative flex-1">
+                        <Activity className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                        <input
+                          type="number"
+                          id="bmiHeight"
+                          name="height"
+                          value={bmiData.height}
+                          onChange={handleBmiInputChange}
+                          placeholder="Ingresa tu estatura"
+                          min="1"
+                          step="0.01"
+                          className="w-full pl-12 pr-4 py-3.5 bg-background border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                        />
+                      </div>
+                      <div className="flex items-center px-4 py-3.5 bg-accent border border-border rounded-xl">
+                        <span className="text-sm font-semibold text-foreground">m</span>
+                      </div>
+                    </div>
+                    <p className="text-xs text-muted-foreground">Ingresa tu estatura en metros (ej: 1.75)</p>
+                  </div>
+
+                  {/* Calculate Button - No functionality yet */}
+                  <button
+                    type="button"
+                    className="w-full px-6 py-4 bg-primary text-primary-foreground rounded-xl font-bold text-base hover:opacity-90 transition-all shadow-lg hover:shadow-xl active:scale-95 mt-6 flex items-center justify-center gap-2"
+                  >
+                    <Calculator className="w-5 h-5" />
+                    Calcular IMC
+                  </button>
+                </form>
+
+                {/* Additional Info */}
+                <div className="mt-6 pt-6 border-t border-border/50">
+                  <h4 className="text-xs font-bold text-foreground mb-3 uppercase tracking-wide">Categorías de IMC</h4>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-muted-foreground">Bajo peso</span>
+                      <span className="font-semibold text-foreground">Menor a 18.5</span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-muted-foreground">Peso normal</span>
+                      <span className="font-semibold text-foreground">18.5 - 24.9</span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-muted-foreground">Sobrepeso</span>
+                      <span className="font-semibold text-foreground">25 - 29.9</span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-muted-foreground">Obesidad</span>
+                      <span className="font-semibold text-foreground">30 o mayor</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Back Button */}
+            <button
+              onClick={() => setCurrentScreen("recipes")}
+              className="mt-6 w-full text-center text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center justify-center gap-2"
+            >
+              <ChevronLeft className="w-4 h-4" />
+              Volver a las recetas
+            </button>
+          </div>
+        </div>
+      )}
+
+      {currentScreen === "editProfile" && (
+        <div className="min-h-screen flex items-center justify-center px-4 py-8">
+          <div className="w-full max-w-md animate-in fade-in slide-in-from-bottom-6 duration-500">
+            {/* Edit Form Container */}
+            <div className="bg-card/95 backdrop-blur-sm rounded-3xl shadow-2xl overflow-hidden border border-border/50">
+              {/* Header */}
+              <div className="from-primary/10 to-primary/5 px-6 py-8 text-center border-b border-border/50">
+                <div className="flex justify-center mb-4">
+                  <div className="w-14 h-14 bg-primary rounded-2xl flex items-center justify-center shadow-lg">
+                    <Edit className="w-8 h-8 text-primary-foreground" />
+                  </div>
+                </div>
+                <h2 className="text-2xl font-bold text-foreground mb-2">Editar tu Perfil</h2>
+                <p className="text-sm text-muted-foreground">Actualiza tu información personal y de salud</p>
+              </div>
+
+              {/* Form */}
+              <div className="px-6 py-8">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault()
+                    console.log("Profile updated:", { ...formData, ...healthData })
+                    alert("Perfil actualizado exitosamente!")
+                    setCurrentScreen("profile")
+                  }}
+                  className="space-y-5"
+                >
+                  {/* Name Field */}
+                  <div className="space-y-2">
+                    <label htmlFor="editName" className="text-sm font-semibold text-foreground block">
+                      Nombre Completo
+                    </label>
+                    <div className="relative">
+                      <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                      <input
+                        type="text"
+                        id="editName"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        placeholder="Ingrese su nombre"
+                        required
+                        className="w-full pl-12 pr-4 py-3.5 bg-background border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Email Field */}
+                  <div className="space-y-2">
+                    <label htmlFor="editEmail" className="text-sm font-semibold text-foreground block">
+                      Correo Electrónico
+                    </label>
+                    <div className="relative">
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                      <input
+                        type="email"
+                        id="editEmail"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        placeholder="Ingrese su correo"
+                        required
+                        className="w-full pl-12 pr-4 py-3.5 bg-background border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Password Field */}
+                  <div className="space-y-2">
+                    <label htmlFor="editPassword" className="text-sm font-semibold text-foreground block">
+                      Nueva Contraseña (Opcional)
+                    </label>
+                    <div className="relative">
+                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        id="editPassword"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleInputChange}
+                        placeholder="Dejar en blanco para mantener actual"
+                        className="w-full pl-12 pr-12 py-3.5 bg-background border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Age Field */}
+                  <div className="space-y-2">
+                    <label htmlFor="editAge" className="text-sm font-semibold text-foreground block">
+                      Edad
+                    </label>
+                    <div className="relative">
+                      <Activity className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                      <input
+                        type="number"
+                        id="editAge"
+                        name="age"
+                        value={healthData.age}
+                        onChange={handleHealthInputChange}
+                        placeholder="Ingrese su edad"
+                        min="1"
+                        max="120"
+                        required
+                        className="w-full pl-12 pr-4 py-3.5 bg-background border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Weight Field */}
+                  <div className="space-y-2">
+                    <label htmlFor="editWeight" className="text-sm font-semibold text-foreground block">
+                      Peso (kg)
+                    </label>
+                    <div className="relative">
+                      <Activity className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                      <input
+                        type="number"
+                        id="editWeight"
+                        name="weight"
+                        value={healthData.weight}
+                        onChange={handleHealthInputChange}
+                        placeholder="Ingrese su peso en kilos (kg)"
+                        min="1"
+                        step="0.1"
+                        required
+                        className="w-full pl-12 pr-4 py-3.5 bg-background border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Height Field */}
+                  <div className="space-y-2">
+                    <label htmlFor="editHeight" className="text-sm font-semibold text-foreground block">
+                      Estatura (cm)
+                    </label>
+                    <div className="relative">
+                      <Activity className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                      <input
+                        type="number"
+                        id="editHeight"
+                        name="height"
+                        value={healthData.height}
+                        onChange={handleHealthInputChange}
+                        placeholder="Ingrese su estatura en cm"
+                        min="1"
+                        step="0.1"
+                        required
+                        className="w-full pl-12 pr-4 py-3.5 bg-background border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Health Issues Field */}
+                  <div className="space-y-2">
+                    <label htmlFor="editHealthIssues" className="text-sm font-semibold text-foreground block">
+                      Problemas de salud (Opcional)
+                    </label>
+                    <textarea
+                      id="editHealthIssues"
+                      name="healthIssues"
+                      value={healthData.healthIssues}
+                      onChange={handleHealthInputChange}
+                      placeholder="Dinos su problemas de salud"
+                      rows={4}
+                      className="w-full px-4 py-3.5 bg-background border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all resize-none"
+                    />
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex gap-3 mt-6">
+                    <button
+                      type="button"
+                      onClick={() => setCurrentScreen("profile")}
+                      className="flex-1 px-6 py-4 bg-accent border border-border rounded-xl font-semibold text-foreground hover:bg-accent/80 transition-all"
+                    >
+                      Cancelar
+                    </button>
+                    <button
+                      type="submit"
+                      className="flex-1 px-6 py-4 bg-primary text-primary-foreground rounded-xl font-bold text-base hover:opacity-90 transition-all shadow-lg hover:shadow-xl active:scale-95"
+                    >
+                      Guardar Cambios
+                    </button>
+                  </div>
+                </form>
+
+                {/* Additional Info */}
+                <div className="mt-6 pt-6 border-t border-border/50 text-center">
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    Tus cambios se guardarán de forma segura
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
